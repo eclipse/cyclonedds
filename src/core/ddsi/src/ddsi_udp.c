@@ -409,7 +409,6 @@ static dds_return_t set_mc_options_transmit_ipv4 (struct ddsi_domaingv const * c
 static dds_return_t ddsi_udp_create_conn (ddsi_tran_conn_t *conn_out, ddsi_tran_factory_t fact, uint32_t port, const ddsi_tran_qos_t *qos)
 {
   struct ddsi_domaingv const * const gv = fact->gv;
-  const int one = 1;
 
   dds_return_t rc;
   ddsrt_socket_t sock;
@@ -466,13 +465,11 @@ static dds_return_t ddsi_udp_create_conn (ddsi_tran_conn_t *conn_out, ddsi_tran_
     goto fail;
   }
 
-  if (reuse_addr && (rc = ddsrt_setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, &one, sizeof (one))) != DDS_RETCODE_OK)
+  /* If we're binding to a port number, allow others to bind to the same port */
+  if (port)
   {
-    GVERROR ("ddsi_udp_create_conn: failed to enable address reuse: %s\n", dds_strretcode (rc));
-    if (rc != DDS_RETCODE_BAD_PARAMETER)
-    {
-      /* There must at some point have been an implementation that refused to do SO_REUSEADDR, but I
-         don't know which */
+    if ((rc = ddsrt_setsockreuse (sock, true)) != DDS_RETCODE_OK) {
+      GVERROR("ddsi_udp_create_conn: failed to enable port reuse: %s\n", dds_strretcode(rc));
       goto fail_w_socket;
     }
   }
