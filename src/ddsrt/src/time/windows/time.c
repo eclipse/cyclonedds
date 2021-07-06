@@ -15,7 +15,7 @@
 
 #include "dds/ddsrt/time.h"
 
-extern inline DWORD
+DDS_EXPORT extern inline DWORD
 ddsrt_duration_to_msecs_ceil(dds_duration_t reltime);
 
 /* GetSystemTimePreciseAsFileTime was introduced with Windows 8, so

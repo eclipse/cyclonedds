@@ -34,7 +34,7 @@
 #include <net/if_dl.h>
 #endif
 
-extern inline struct timeval *
+DDS_EXPORT extern inline struct timeval *
 ddsrt_duration_to_timeval_ceil(dds_duration_t reltime, struct timeval *tv);
 
 #if DDSRT_HAVE_IPV6

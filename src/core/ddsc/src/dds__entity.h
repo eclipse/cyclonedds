@@ -63,22 +63,22 @@ dds_entity_unpin_and_drop_ref (dds_entity *e);
   qualifier_ dds_return_t type_##_lock (dds_entity_t hdl, type_ **x); \
   qualifier_ void type_##_unlock (type_ *x);
 
-DDS_EXPORT inline dds_entity *dds_entity_from_handle_link (struct dds_handle_link *hdllink) {
+inline dds_entity *dds_entity_from_handle_link (struct dds_handle_link *hdllink) {
   return (dds_entity *) ((char *) hdllink - offsetof (struct dds_entity, m_hdllink));
 }
 
-DDS_EXPORT inline bool dds_entity_is_enabled (const dds_entity *e) {
+inline bool dds_entity_is_enabled (const dds_entity *e) {
   return (e->m_flags & DDS_ENTITY_ENABLED) != 0;
 }
 
 DDS_EXPORT void dds_entity_status_set (dds_entity *e, status_mask_t t);
 DDS_EXPORT void dds_entity_trigger_set (dds_entity *e, uint32_t t);
 
-DDS_EXPORT inline void dds_entity_status_reset (dds_entity *e, status_mask_t t) {
+inline void dds_entity_status_reset (dds_entity *e, status_mask_t t) {
   ddsrt_atomic_and32 (&e->m_status.m_status_and_mask, SAM_ENABLED_MASK | (status_mask_t) ~t);
 }
 
-DDS_EXPORT inline dds_entity_kind_t dds_entity_kind (const dds_entity *e) {
+inline dds_entity_kind_t dds_entity_kind (const dds_entity *e) {
   return e->m_kind;
 }
 

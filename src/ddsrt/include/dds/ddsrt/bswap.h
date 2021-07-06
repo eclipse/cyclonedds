@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include "dds/export.h"
 #include "dds/ddsrt/endian.h"
 
 #if defined (__cplusplus)
